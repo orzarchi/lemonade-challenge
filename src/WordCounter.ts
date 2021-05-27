@@ -9,7 +9,7 @@ const WORDS_WITHOUT_PUNCTUATION_REGEX = /\b[\w']+\b/g;
 export default class WordCounter {
   private wordCountStorage: Record<string, number> = {};
 
-  countWords(input: string) {
+  countWords = (input: string) => {
     const sanitizedWords =
       input.toLowerCase().match(WORDS_WITHOUT_PUNCTUATION_REGEX) || [];
 
@@ -30,17 +30,17 @@ export default class WordCounter {
         return (wordCount || 0) + (otherWordCount || 0);
       }
     );
-  }
+  };
 
-  countWordsInStream(wordStream: Readable) {
-    wordStream.pipe(es.split()).pipe(es.mapSync(this.countWords.bind(this)));
-  }
+  countWordsInStream = (wordStream: Readable) => {
+    wordStream.pipe(es.split()).pipe(es.mapSync(this.countWords));
+  };
 
-  getAllWordCounts() {
+  getAllWordCounts = () => {
     return { ...this.wordCountStorage };
-  }
+  };
 
-  getWordCount(word: string) {
+  getWordCount = (word: string) => {
     return this.wordCountStorage[word] || 0;
-  }
+  };
 }
