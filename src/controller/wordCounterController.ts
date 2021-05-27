@@ -85,7 +85,7 @@ export default async function wordCounterController(
           const response = await axios.get(wordConsumeInput.url, {
             responseType: "stream",
           });
-          wordCounter.countWordsInStream(response.data);
+          await wordCounter.countWordsInStream(response.data);
         } catch (err) {
           return {
             error: `Could not read data from url ${wordConsumeInput.url}`,
@@ -98,7 +98,7 @@ export default async function wordCounterController(
         try {
           // Ensure that file exists
           await fs.stat(path);
-          wordCounter.countWordsInStream(streamFs.createReadStream(path));
+          await wordCounter.countWordsInStream(streamFs.createReadStream(path));
         } catch (err) {
           return {
             error: `Could not read data from local file ${path}`,

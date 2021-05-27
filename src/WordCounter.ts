@@ -33,7 +33,13 @@ export default class WordCounter {
   };
 
   countWordsInStream = (wordStream: Readable) => {
-    wordStream.pipe(es.split()).pipe(es.mapSync(this.countWords));
+    return new Promise((resolve, reject) => {
+      const stream = wordStream
+        .pipe(es.split())
+        .pipe(es.mapSync(this.countWords));
+      stream.on("finish", resolve);
+      stream.on("error", reject);
+    });
   };
 
   getAllWordCounts = () => {
