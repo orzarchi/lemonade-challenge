@@ -34,11 +34,11 @@ export default class WordCounter {
 
   countWordsInStream = (wordStream: Readable) => {
     return new Promise((resolve, reject) => {
-      const stream = wordStream
+      wordStream
         .pipe(es.split())
-        .pipe(es.mapSync(this.countWords));
-      stream.on("finish", resolve);
-      stream.on("error", reject);
+        .pipe(es.mapSync(this.countWords))
+        .on("end", resolve)
+        .on("error", reject);
     });
   };
 
